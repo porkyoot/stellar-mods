@@ -14,6 +14,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven("https://maven.quiltmc.org/repository/release")
+        maven("https://maven.terraformersmc.com/")
     }
 
     dependencies {
@@ -61,6 +62,7 @@ dependencies {
     "modLocalRuntime"(project(":stellar-law"))
     "modLocalRuntime"(project(":stellar-ops"))
     "modLocalRuntime"(project(":stellar-tweak"))
+    "modLocalRuntime"("com.terraformersmc:modmenu:${project.property("modmenu_version")}")
 }
 
 rootLoom.runs.named("client") {
