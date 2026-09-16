@@ -65,6 +65,12 @@ The Stellar ecosystem is organized as a multi-project Gradle build. Each module 
 ### Common Gradle Commands
 
 ```bash
+# Launch global Minecraft client with all Stellar modules loaded
+./gradlew runClient
+
+# Launch global Minecraft dedicated server with all Stellar modules loaded
+./gradlew runServer
+
 # Compile and build all project JARs
 ./gradlew build
 
