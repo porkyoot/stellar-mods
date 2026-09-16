@@ -1,0 +1,12 @@
+style:
+  ForbiddenImport:
+    active: true
+    imports:
+      - value: 'net.minecraft.client.*'
+        reason: 'stellar-ops is 100% server-side and must never import client-side Minecraft classes.'
+      - value: 'com.mojang.blaze3d.*'
+        reason: 'stellar-ops is 100% server-side and must never import Blaze3D rendering classes.'
+      - value: 'org.quiltmc.qsl.base.api.entrypoint.client.*'
+        reason: 'stellar-ops is 100% server-side and must not use client-side entrypoints.'
+      - value: 'com.stellar.tweak.*'
+        reason: 'stellar-ops is 100% server-side and must never import or depend on client-side stellar-tweak.'

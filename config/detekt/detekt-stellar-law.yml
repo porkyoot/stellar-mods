@@ -1,0 +1,10 @@
+style:
+  ForbiddenImport:
+    active: true
+    imports:
+      - value: 'com.stellar.ops.*'
+        reason: 'stellar-law is the shared API/networking foundation and must never import or depend on stellar-ops.'
+      - value: 'com.stellar.tweak.*'
+        reason: 'stellar-law is the shared API/networking foundation and must never import or depend on stellar-tweak.'
+      - value: 'net.minecraft.server.dedicated.*'
+        reason: 'stellar-law is an optionally both-sided API/networking library and must not couple to dedicated server classes.'

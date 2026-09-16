@@ -1,0 +1,10 @@
+style:
+  ForbiddenImport:
+    active: true
+    imports:
+      - value: 'net.minecraft.server.dedicated.*'
+        reason: 'stellar-tweak is 100% client-side and must never import dedicated server Minecraft classes.'
+      - value: 'org.quiltmc.qsl.base.api.entrypoint.server.*'
+        reason: 'stellar-tweak is 100% client-side and must not use server-side entrypoints.'
+      - value: 'com.stellar.ops.*'
+        reason: 'stellar-tweak is 100% client-side and must never import or depend on server-side stellar-ops.'

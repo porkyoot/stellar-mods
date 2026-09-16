@@ -1,0 +1,12 @@
+[submodule "stellar-core"]
+	path = stellar-core
+	url = https://github.com/porkyoot/stellar-core.git
+[submodule "stellar-law"]
+	path = stellar-law
+	url = https://github.com/porkyoot/stellar-law.git
+[submodule "stellar-ops"]
+	path = stellar-ops
+	url = https://github.com/porkyoot/stellar-ops.git
+[submodule "stellar-tweak"]
+	path = stellar-tweak
+	url = https://github.com/porkyoot/stellar-tweak.git

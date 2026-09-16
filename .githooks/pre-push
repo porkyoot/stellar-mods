@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -e
+
+echo "========================================================"
+echo "🧪 [Pre-Push Hook] Running Kotest unit test suite..."
+echo "========================================================"
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+
+if [ -f "$REPO_ROOT/gradlew" ]; then
+    GRADLE_BIN="$REPO_ROOT/gradlew"
+else
+    GRADLE_BIN="gradle"
+fi
+
+"$GRADLE_BIN" test --no-daemon
+
+echo "========================================================"
+echo "✅ [Pre-Push Hook] All unit tests passed!"
+echo "========================================================"

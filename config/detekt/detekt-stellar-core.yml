@@ -1,0 +1,16 @@
+style:
+  ForbiddenImport:
+    active: true
+    imports:
+      - value: 'net.minecraft.client.*'
+        reason: 'stellar-core is common and must never import client-side Minecraft classes.'
+      - value: 'com.mojang.blaze3d.*'
+        reason: 'stellar-core is common and must never import Blaze3D rendering classes.'
+      - value: 'net.minecraft.server.dedicated.*'
+        reason: 'stellar-core is common and must never import dedicated server Minecraft classes.'
+      - value: 'com.stellar.law.*'
+        reason: 'stellar-core is the root foundation and must never import or depend on stellar-law.'
+      - value: 'com.stellar.ops.*'
+        reason: 'stellar-core is the root foundation and must never import or depend on stellar-ops.'
+      - value: 'com.stellar.tweak.*'
+        reason: 'stellar-core is the root foundation and must never import or depend on stellar-tweak.'
