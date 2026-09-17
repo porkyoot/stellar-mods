@@ -15,6 +15,8 @@ allprojects {
         mavenCentral()
         maven("https://maven.quiltmc.org/repository/release")
         maven("https://maven.terraformersmc.com/")
+        maven("https://maven.shedaniel.me/")
+        maven(rootProject.file("local-repo"))
     }
 
     dependencies {
@@ -45,7 +47,7 @@ allprojects {
     }
 }
 
-val rootLoom = extensions.getByName<net.fabricmc.loom.api.LoomGradleExtensionAPI>("loom")
+val rootLoom = extensions.getByType<net.fabricmc.loom.api.LoomGradleExtensionAPI>()
 rootLoom.noIntermediateMappings()
 
 dependencies {
@@ -58,11 +60,11 @@ dependencies {
     "modImplementation"("org.quiltmc.quilt-kotlin-libraries:core:${project.property("quilt_kotlin_version")}")
 
     // Global client runtime: aggregate all Stellar modules
-    "implementation"(project(":stellar-core"))
-    "modLocalRuntime"(project(":stellar-law"))
-    "modLocalRuntime"(project(":stellar-ops"))
-    "modLocalRuntime"(project(":stellar-tweak"))
-    "modLocalRuntime"("com.terraformersmc:modmenu:${project.property("modmenu_version")}")
+    "implementation"(project(path = ":stellar-core", configuration = "namedElements"))
+    "implementation"(project(path = ":stellar-law", configuration = "namedElements"))
+    "implementation"(project(path = ":stellar-ops", configuration = "namedElements"))
+    "implementation"(project(path = ":stellar-tweak", configuration = "namedElements"))
+    "implementation"(project(path = ":stellar-lang", configuration = "namedElements"))
 }
 
 rootLoom.runs.named("client") {
@@ -85,9 +87,38 @@ tasks.named("runServer") {
     description = "Runs the global Minecraft dedicated server with the entire Stellar mod suite."
 }
 
+tasks.register("installGitHooks") {
+    group = "help"
+    description = "Configures core.hooksPath to .githooks for root repository and all submodules."
+    doLast {
+        val repos = listOf(rootDir) + subprojects.map { it.projectDir }
+        for (repo in repos) {
+            val hooksDir = File(repo, ".githooks")
+            if (hooksDir.exists()) {
+                hooksDir.listFiles()?.filter { it.isFile }?.forEach { hook ->
+                    hook.setExecutable(true)
+                }
+                runCatching {
+                    ProcessBuilder("git", "config", "core.hooksPath", ".githooks")
+                        .directory(repo)
+                        .inheritIO()
+                        .start()
+                        .waitFor()
+                }
+                println("Configured git hooks in ${repo.name}")
+            }
+        }
+    }
+}
+
 subprojects {
     apply(plugin = "org.quiltmc.loom")
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "jacoco")
+
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.12"
+    }
 
     val loom = extensions.getByName<net.fabricmc.loom.api.LoomGradleExtensionAPI>("loom")
     loom.noIntermediateMappings()
@@ -120,8 +151,31 @@ subprojects {
         }
     }
 
+    val javaToolchains = project.extensions.getByType<JavaToolchainService>()
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(26))
+        })
+        extensions.configure<JacocoTaskExtension> {
+            includes = listOf("com.stellar.*")
+        }
+        finalizedBy("jacocoTestReport")
+    }
+
+    tasks.withType<JacocoReport>().configureEach {
+        dependsOn(tasks.withType<Test>())
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+        classDirectories.setFrom(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude("**/mixin/**")
+                }
+            }
+        )
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
@@ -139,4 +193,26 @@ subprojects {
         enabled = false
     }
 }
+
+evaluationDependsOnChildren()
+
+rootLoom.mods {
+    create("stellar_law") {
+        sourceSet("main", project(":stellar-law"))
+    }
+    create("stellar_ops") {
+        sourceSet("main", project(":stellar-ops"))
+    }
+    create("stellar_tweak") {
+        sourceSet("main", project(":stellar-tweak"))
+    }
+    create("stellar_lang") {
+        sourceSet("main", project(":stellar-lang"))
+    }
+}
+
+tasks.named("runClient") {
+    dependsOn(subprojects.map { it.tasks.named("jar") })
+}
+
 

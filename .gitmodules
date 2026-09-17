@@ -10,3 +10,6 @@
 [submodule "stellar-tweak"]
 	path = stellar-tweak
 	url = https://github.com/porkyoot/stellar-tweak.git
+[submodule "stellar-lang"]
+	path = stellar-lang
+	url = https://github.com/porkyoot/stellar-lang.git

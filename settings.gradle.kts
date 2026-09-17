@@ -12,4 +12,4 @@ pluginManagement {
 }
 
 rootProject.name = "stellar-mods"
-include("stellar-core", "stellar-law", "stellar-ops", "stellar-tweak")
+include("stellar-core", "stellar-law", "stellar-ops", "stellar-tweak", "stellar-lang")
