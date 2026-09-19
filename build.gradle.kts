@@ -65,6 +65,7 @@ dependencies {
     "implementation"(project(path = ":stellar-ops", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-tweak", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-lang", configuration = "namedElements"))
+    "implementation"("com.microsoft.onnxruntime:onnxruntime:1.20.0")
 }
 
 rootLoom.runs.named("client") {
