@@ -136,6 +136,7 @@ subprojects {
         "testImplementation"("io.kotest:kotest-runner-junit5:${project.property("kotest_version")}")
         "testImplementation"("io.kotest:kotest-assertions-core:${project.property("kotest_version")}")
         "testImplementation"("io.kotest:kotest-property:${project.property("kotest_version")}")
+        "testImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     }
 
     loom.runs.create("gameTestServer") {
