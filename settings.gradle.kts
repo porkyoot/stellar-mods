@@ -1,4 +1,5 @@
-if (System.getProperty("java.version")?.startsWith("26") == true) {
+val javaVersion = System.getProperty("java.version")
+if (javaVersion?.startsWith("26") == true || javaVersion?.startsWith("27") == true) {
     System.setProperty("java.version", "21.0.2")
 }
 
@@ -12,4 +13,4 @@ pluginManagement {
 }
 
 rootProject.name = "stellar-mods"
-include("stellar-core", "stellar-law", "stellar-ops", "stellar-tweak", "stellar-lang", "stellar-keys")
+include("stellar-core", "stellar-law", "stellar-ops", "stellar-tweak", "stellar-lang", "stellar-keys", "stellar-rays")

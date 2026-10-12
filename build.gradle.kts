@@ -66,6 +66,7 @@ dependencies {
     "implementation"(project(path = ":stellar-tweak", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-lang", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-keys", configuration = "namedElements"))
+    "implementation"(project(path = ":stellar-rays", configuration = "namedElements"))
     "implementation"("com.microsoft.onnxruntime:onnxruntime:1.20.0")
 }
 
@@ -158,7 +159,7 @@ subprojects {
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
         javaLauncher.set(javaToolchains.launcherFor {
-            languageVersion.set(JavaLanguageVersion.of(26))
+            languageVersion.set(JavaLanguageVersion.of(21))
         })
         extensions.configure<JacocoTaskExtension> {
             includes = listOf("com.stellar.*")
@@ -214,6 +215,9 @@ rootLoom.mods {
     }
     create("stellar_keys") {
         sourceSet("main", project(":stellar-keys"))
+    }
+    create("stellar_rays") {
+        sourceSet("main", project(":stellar-rays"))
     }
 }
 

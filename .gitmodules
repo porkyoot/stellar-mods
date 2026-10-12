@@ -16,3 +16,6 @@
 [submodule "stellar-keys"]
 	path = stellar-keys
 	url = https://github.com/porkyoot/stellar-keys.git
+[submodule "stellar-rays"]
+	path = stellar-rays
+	url = https://github.com/porkyoot/stellar-rays.git
