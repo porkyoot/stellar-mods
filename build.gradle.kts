@@ -14,6 +14,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven("https://maven.quiltmc.org/repository/release")
+        maven("https://maven.fabricmc.net/")
         maven("https://maven.terraformersmc.com/")
         maven("https://maven.shedaniel.me/")
         maven("https://maven.caffeinemc.net/releases")
@@ -59,6 +60,10 @@ dependencies {
 
     "modImplementation"("org.quiltmc:quilt-loader:${project.property("quilt_loader_version")}")
     "modImplementation"("org.quiltmc.quilt-kotlin-libraries:core:${project.property("quilt_kotlin_version")}")
+    "runtimeOnly"("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_api_version")}")
+    "runtimeOnly"("net.caffeinemc:sodium-fabric:0.9.1+mc26.2") {
+        exclude(group = "net.fabricmc", module = "fabric-loader")
+    }
 
     // Global client runtime: aggregate all Stellar modules
     "implementation"(project(path = ":stellar-core", configuration = "namedElements"))
