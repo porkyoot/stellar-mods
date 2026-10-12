@@ -19,3 +19,6 @@
 [submodule "stellar-rays"]
 	path = stellar-rays
 	url = https://github.com/porkyoot/stellar-rays.git
+[submodule "sulkan-shaders"]
+	path = sulkan-shaders
+	url = https://github.com/mravatins/sulkanShaders.git

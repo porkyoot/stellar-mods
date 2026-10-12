@@ -16,6 +16,7 @@ allprojects {
         maven("https://maven.quiltmc.org/repository/release")
         maven("https://maven.terraformersmc.com/")
         maven("https://maven.shedaniel.me/")
+        maven("https://maven.caffeinemc.net/releases")
         maven(rootProject.file("local-repo"))
     }
 
@@ -67,6 +68,7 @@ dependencies {
     "implementation"(project(path = ":stellar-lang", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-keys", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-rays", configuration = "namedElements"))
+    "implementation"(project(path = ":sulkan-shaders", configuration = "namedElements"))
     "implementation"("com.microsoft.onnxruntime:onnxruntime:1.20.0")
 }
 
@@ -159,7 +161,7 @@ subprojects {
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
         javaLauncher.set(javaToolchains.launcherFor {
-            languageVersion.set(JavaLanguageVersion.of(21))
+            languageVersion.set(JavaLanguageVersion.of(27))
         })
         extensions.configure<JacocoTaskExtension> {
             includes = listOf("com.stellar.*")
@@ -174,7 +176,7 @@ subprojects {
             html.required.set(true)
         }
         classDirectories.setFrom(
-            classDirectories.files.map {
+            classDirectories.files.filter { !it.absolutePath.contains("classes/java") }.map {
                 fileTree(it) {
                     exclude("**/mixin/**")
                 }
@@ -189,8 +191,12 @@ subprojects {
     }
     
     configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(27))
         withSourcesJar()
+    }
+
+    tasks.withType<JavaCompile>().configureEach {
+        options.release.set(25)
     }
 
     tasks.withType<net.fabricmc.loom.task.RemapSourcesJarTask>().configureEach {
@@ -218,6 +224,9 @@ rootLoom.mods {
     }
     create("stellar_rays") {
         sourceSet("main", project(":stellar-rays"))
+    }
+    create("sulkan") {
+        sourceSet("main", project(":sulkan-shaders"))
     }
 }
 
