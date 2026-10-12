@@ -80,6 +80,7 @@ dependencies {
 rootLoom.runs.named("client") {
     configName = "Stellar Client"
     runDir = "run/client"
+    programArgs("--graphicsBackend", "vulkan")
 }
 
 rootLoom.runs.named("server") {
