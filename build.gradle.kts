@@ -73,7 +73,6 @@ dependencies {
     "implementation"(project(path = ":stellar-lang", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-keys", configuration = "namedElements"))
     "implementation"(project(path = ":stellar-rays", configuration = "namedElements"))
-    "implementation"(project(path = ":sulkan-shaders", configuration = "namedElements"))
     "implementation"("com.microsoft.onnxruntime:onnxruntime:1.20.0")
 }
 
@@ -230,9 +229,6 @@ rootLoom.mods {
     }
     create("stellar_rays") {
         sourceSet("main", project(":stellar-rays"))
-    }
-    create("sulkan") {
-        sourceSet("main", project(":sulkan-shaders"))
     }
 }
 
